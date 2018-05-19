@@ -14,7 +14,8 @@ script:
 
 deploy:
   provider: heroku
-  api_key:
-    secure: "41e566f730fb1b0e74d56bfb273a66827f15fb60"
+  api_key: "41e566f730fb1b0e74d56bfb273a66827f15fb60"
+  app: search-phone-2018
+   
     
     
