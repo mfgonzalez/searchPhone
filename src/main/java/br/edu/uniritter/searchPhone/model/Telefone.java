@@ -1,10 +1,11 @@
 package br.edu.uniritter.searchPhone.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "telefone")
 public class Telefone {
 
     @Id
@@ -12,6 +13,8 @@ public class Telefone {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    @JsonIgnore
     private Cliente cliente;
 
     @Column(nullable = false, length = 2)
@@ -19,6 +22,13 @@ public class Telefone {
 
     @Column(nullable = false, length = 9)
     private String numero;
+
+    public Telefone() {}
+
+    public Telefone(String ddd, String numero) {
+        this.ddd = ddd;
+        this.numero = numero;
+    }
 
     public Long getId() {
         return id;
@@ -50,5 +60,25 @@ public class Telefone {
 
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Telefone)) return false;
+
+        Telefone telefone = (Telefone) o;
+
+        return getId() != null ? getId().equals(telefone.getId()) : telefone.getId() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + ddd + ") " + numero;
     }
 }
