@@ -7,7 +7,7 @@ SearchPhone é um sistema de cadastro de clientes baseados no seu telefone de co
 -
 Como usuário, quero cadastrar o cliente no sistema, de forma  a manter o registro dos meus clientes para futuras compras.
 1. Não deve permitir cadastrar cliente sem nome e cpf;
-2. Não deve permitir cadastrar cliente com um telefone já cadastrado;
+2. Não deve permitir cadastrar cliente com um telefone já cadastrado;   
 3. Não deve permitir cadastrar cliente com um CPF já cadastrado;
 
 **US #02 - Buscar cliente cadastrado**
