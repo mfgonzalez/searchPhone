@@ -57,7 +57,7 @@ public class ClienteServiceTest {
         when(repository.findByDddAndNumero(DDD, NUMERO)).thenReturn(Optional.of(cliente));
 
         expectedException.expect(UnicidadeTelefoneException.class);
-        expectedException.expectMessage("Já existe pessoa cadastrada com o telefone (" + DDD + ") " + NUMERO);
+        expectedException.expectMessage("Já existe cliente cadastrado com o telefone (" + DDD + ") " + NUMERO);
 
         service.salvar(cliente);
     }
@@ -67,7 +67,7 @@ public class ClienteServiceTest {
         when(repository.findByCpf(CPF)).thenReturn(Optional.of(cliente));
 
         expectedException.expect(UnicidadeCpfException.class);
-        expectedException.expectMessage("Já existe pessoa cadastrada com o CPF '" + CPF + "'");
+        expectedException.expectMessage("Já existe cliente cadastrado com o CPF '" + CPF + "'");
 
         service.salvar(cliente);
     }

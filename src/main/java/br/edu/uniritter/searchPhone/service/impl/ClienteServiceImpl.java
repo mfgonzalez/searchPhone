@@ -25,13 +25,13 @@ public class ClienteServiceImpl implements ClienteService {
         Optional<Cliente> optional = repository.findByCpf(cliente.getCpf());
 
         if(optional.isPresent()) {
-            throw new UnicidadeCpfException("Já existe pessoa cadastrada com o CPF '" + cliente.getCpf() + "'");
+            throw new UnicidadeCpfException("Já existe cliente cadastrado com o CPF '" + cliente.getCpf() + "'");
         }
 
         optional = repository.findByDddAndNumero(cliente.getTelefones().get(0).getDdd(), cliente.getTelefones().get(0).getNumero());
 
         if(optional.isPresent()) {
-            throw new UnicidadeTelefoneException("Já existe pessoa cadastrada com o telefone " + cliente.getTelefones().get(0).toString());
+            throw new UnicidadeTelefoneException("Já existe cliente cadastrado com o telefone " + cliente.getTelefones().get(0).toString());
         }
 
         return repository.save(cliente);
@@ -41,6 +41,6 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente buscarPorTelefone(Telefone telefone) throws ClienteNaoEncontradoException {
         Optional<Cliente> optional = repository.findByDddAndNumero(telefone.getDdd(), telefone.getNumero());
 
-        return optional.orElseThrow(() -> new ClienteNaoEncontradoException("Não existe pessoa com o telefone " + telefone.toString()));
+        return optional.orElseThrow(() -> new ClienteNaoEncontradoException("Não existe cliente com o telefone " + telefone.toString()));
     }
 }

@@ -15,15 +15,14 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")
-@Sql(value = "/load-db.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = "/clear-db.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+
 public class ClienteRepositoryTest {
 
     @Autowired
     private ClienteRepository repository;
 
     @Test
-    public void deve_procurar_Cliente_pelo_cpf() throws Exception {
+    public void deve_procurar_cliente_pelo_cpf() throws Exception {
         Optional<Cliente> optional = repository.findByCpf("38767897100");
 
         assertTrue(optional.isPresent());
@@ -36,14 +35,14 @@ public class ClienteRepositoryTest {
     }
 
     @Test
-    public void nao_deve_encontrar_Cliente_com_cpf_invalido() throws Exception {
+    public void nao_deve_encontrar_cliente_com_cpf_invalido() throws Exception {
         Optional<Cliente> optional = repository.findByCpf("38767891232");
 
         assertFalse(optional.isPresent());
     }
 
     @Test
-    public void deve_encontrar_Cliente_pelo_ddd_e_numero() throws Exception {
+    public void deve_encontrar_cliente_pelo_ddd_e_numero() throws Exception {
         Optional<Cliente> optional = repository.findByDddAndNumero("86", "35006330");
 
         assertTrue(optional.isPresent());
@@ -56,7 +55,7 @@ public class ClienteRepositoryTest {
     }
 
     @Test
-    public void nao_deve_encontrar_Cliente_com_ddd_e_numero_nao_cadastrado() throws Exception {
+    public void nao_deve_encontrar_cliente_com_ddd_e_numero_nao_cadastrado() throws Exception {
         Optional<Cliente> optional = repository.findByDddAndNumero("00", "35000000");
 
         assertFalse(optional.isPresent());

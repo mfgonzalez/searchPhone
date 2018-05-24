@@ -1,10 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SearchPhone</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 <body>
-    <h1>SearchPhone</h1>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-6 align-self-center">
+                    <h1 class="display-4">SearchPhone</h1>
+
+                    <hr/>
+
+                    <form id="form-telefone" th:action="@{/clientes/}">
+                        <div class="form-group">
+                            <label for="input-telefone">Telefone</label>
+                            <input type="text" class="form-control form-control-lg" id="input-telefone" placeholder="Informe o telefone">
+                        </div>
+
+                        <button type="button" id="btn-buscar" class="btn btn-primary btn-lg btn-block">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="alert-success" class="alert alert-success d-none" role="alert">
+            Cliente encontrado!
+        </div>
+
+        <div id="alert-danger" class="alert alert-danger d-none" role="alert">
+            Cliente não encontrado!
+        </div>
+
+        <form id="form-cliente" class="d-none" th:object="${cliente}" role="form">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" th:field="*{nome}" class="form-control" id="nome" maxlength="150">
+            </div>
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="text" th:field="*{cpf}" class="form-control" id="cpf">
+                <small class="form-text text-muted">Apenas números</small>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+
+    <script th:inline="javascript">
+
+        var inputTelefone   = $("input#input-telefone"),
+            btnBuscar       = $("button#btn-buscar"),
+            form            = $("form#form-telefone"),
+            alertSuccess    = $("#alert-success"),
+            alertDanger     = $("#alert-danger"),
+            formCliente    = $("form#form-cliente"),
+            mask            = "(99) 9999-9999?9";
+
+        inputTelefone
+            .mask(mask)
+            .focusout(function (event) {
+                var target, phone, element;
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+                phone = target.value.replace(/\D/g, '');
+                element = $(target);
+                element.unmask();
+                if(phone.length > 10) {
+                    element.mask(mask);
+                } else {
+                    element.mask(mask);
+                }
+            });
+
+        btnBuscar
+            .on("click", function() {
+                var telefone = inputTelefone.mask(),
+                    ddd = telefone.substr(0, 2),
+                    numero = telefone.substr(2, telefone.length);
+
+                $.ajax({
+                    contentType : 'application/json; charset=utf-8',
+                    type: 'GET',
+                    url: form.attr('action') + ddd + "/" + numero,
+                    success : function(response){
+                        formCliente.find('input#nome').val(response.nome);
+                        formCliente.find('input#cpf').val(response.cpf);
+                        formCliente.removeClass('d-none');
+                        alertSuccess.removeClass('d-none');
+                        alertDanger.addClass('d-none');
+                    },
+                    error : function(response){
+                        alertSuccess.addClass('d-none');
+                        alertDanger.html(response.responseJSON.erro).removeClass('d-none');
+                        formCliente.addClass('d-none');
+                    }
+                });
+            })
+    </script>
 </body>
 </html>

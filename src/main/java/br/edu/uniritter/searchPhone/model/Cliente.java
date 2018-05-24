@@ -8,7 +8,7 @@ import java.util.List;
 public class Cliente {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 150)
@@ -20,7 +20,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Telefone> telefones;
 
     public Cliente() {}
