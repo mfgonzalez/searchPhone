@@ -1,5 +1,6 @@
 # searchPhone 
 [![Build Status](https://travis-ci.org/mfgonzalez/searchPhone.svg?branch=master)](https://travis-ci.org/mfgonzalez/searchPhone)
+[![codecov](https://codecov.io/gh/mfgonzalez/searchPhone/branch/master/graph/badge.svg)](https://codecov.io/gh/mfgonzalez/searchPhone)
 
 SearchPhone é um sistema de cadastro de clientes baseados no seu telefone de contato com o objetivo de agilizar o processo de recebimento e entrega de pedidos de delivery.
 
